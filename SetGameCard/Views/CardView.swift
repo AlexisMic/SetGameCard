@@ -31,7 +31,11 @@ struct CardView: View {
     private var cardContent: some View {
         VStack {
             ForEach(0..<cardNumber.rawValue) { _ in
-                Text("Hi")
+                ZStack {
+                    Text(cardShape.rawValue)
+                        .foregroundColor(cardColor)
+                        .opacity(cardShading.rawValue)
+                }
             }
         }
         
@@ -46,6 +50,6 @@ struct DrawingConstants {
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(cardNumber: CardNumber.two, cardShading: CardShading.solid, cardColor: .blue, cardShape: CardShape.rectangle)
+        CardView(cardNumber: CardNumber.two, cardShading: CardShading.striped, cardColor: .blue, cardShape: CardShape.rectangle)
     }
 }

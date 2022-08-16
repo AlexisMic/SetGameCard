@@ -24,9 +24,9 @@ enum CardNumber: Int, CaseIterable {
 }
 
 enum CardShading: Double, CaseIterable {
-    case solid = 0, striped = 0.5, open = 1.0
+    case solid = 1, striped = 0.5, open = 0
 }
 
-enum CardShape: CaseIterable {
-    case diamond, rectangle, oval
+enum CardShape: String, CaseIterable {
+    case diamond = "♦", rectangle = "◼︎", oval = "⚪️"
 }
