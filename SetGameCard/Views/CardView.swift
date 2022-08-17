@@ -9,18 +9,16 @@ import SwiftUI
 
 struct CardView: View {
     
-    let cardNumber: CardNumber
-    let cardShading: CardShading
-    let cardColor: Color
-    let cardShape: CardShape
+    let card: Card
         
     var body: some View {
-        let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
+        
+        let cardShape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
         ZStack {
-            shape
+            cardShape
                 .fill()
                 .foregroundColor(.white)
-            shape
+            cardShape
                 .strokeBorder(lineWidth: 3)
             cardContent
         }
@@ -30,26 +28,40 @@ struct CardView: View {
     
     private var cardContent: some View {
         VStack {
-            ForEach(0..<cardNumber.rawValue) { _ in
+            ForEach(0..<card.cardNumber.rawValue) { _ in
                 ZStack {
-                    Text(cardShape.rawValue)
-                        .foregroundColor(cardColor)
-                        .opacity(cardShading.rawValue)
+                    switch card.cardShape {
+                    case .diamond:
+                        Diamond()
+                    case .rectangle:
+                        Rectangle()
+                    case .oval:
+                        Oval()
+                    }
                 }
+                .foregroundColor(card.cardColor)
+                .opacity(card.cardShading.rawValue)
+                .aspectRatio(DrawingConstants.aspectRatio, contentMode: .fit)
+                .padding(.vertical, DrawingConstants.paddingVertical)
+                .padding(.horizontal, DrawingConstants.paddingHorizontal)
             }
         }
-        
     }
 }
 
 
 struct DrawingConstants {
     static let cornerRadius: CGFloat = 5
+    static let aspectRatio: CGFloat = 2
+    static let paddingVertical: Double = 6
+    static let paddingHorizontal: Double = 2
+    
 }
 
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(cardNumber: CardNumber.two, cardShading: CardShading.striped, cardColor: .blue, cardShape: CardShape.rectangle)
+        let card = Card(id: 1, cardNumber: CardNumber.two, cardShading: CardShading.striped, cardColor: .red, cardShape: CardShape.oval, isSelected: false, isMatched: false)
+        CardView(card: card)
     }
 }

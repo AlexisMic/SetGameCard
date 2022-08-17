@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let possibleColors = [Color.red, Color.blue, Color.green]
+
 struct Card {
     
     let id: Int
@@ -28,5 +30,5 @@ enum CardShading: Double, CaseIterable {
 }
 
 enum CardShape: String, CaseIterable {
-    case diamond = "♦", rectangle = "◼︎", oval = "⚪️"
+    case diamond, rectangle, oval
 }

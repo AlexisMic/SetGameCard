@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct SetGameView: View {
+    
+    let gameVM: GameViewModel
+    
     var body: some View {
-        Text("Set Game")
-            .padding()
+        CardView(card: gameVM.cards.first!)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct SetGameView_Previews: PreviewProvider {
     static var previews: some View {
-        SetGameView()
+        let gameVMPreview = GameViewModel()
+        SetGameView(gameVM: gameVMPreview)
     }
 }
