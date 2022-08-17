@@ -17,33 +17,55 @@ struct CardView: View {
         ZStack {
             cardShape
                 .fill()
-                .foregroundColor(.white)
+                .foregroundColor(card.isSelected ? .white : .white)
+//                .opacity(card.isSelected ? 0.50 : 1)
             cardShape
-                .strokeBorder(lineWidth: 3)
+                .strokeBorder(lineWidth: card.isSelected ? 4 : 3)
+                .foregroundColor(card.isSelected ? .orange : .gray)
             cardContent
         }
-        .frame(width: 100, height: 150)
-            
+        .aspectRatio(2/3, contentMode: .fit)
+//        .frame(width: DrawingConstants.cardWidth, height: DrawingConstants.cardWidth * 3/2)
     }
     
     private var cardContent: some View {
         VStack {
             ForEach(0..<card.cardNumber.rawValue) { _ in
-                ZStack {
-                    switch card.cardShape {
-                    case .diamond:
-                        Diamond()
-                    case .rectangle:
-                        Rectangle()
-                    case .oval:
-                        Oval()
-                    }
-                }
-                .foregroundColor(card.cardColor)
-                .opacity(card.cardShading.rawValue)
-                .aspectRatio(DrawingConstants.aspectRatio, contentMode: .fit)
-                .padding(.vertical, DrawingConstants.paddingVertical)
-                .padding(.horizontal, DrawingConstants.paddingHorizontal)
+                cardShape
+                    .foregroundColor(card.cardColor)
+                    .aspectRatio(DrawingConstants.aspectRatio, contentMode: .fit)
+                    .padding(.vertical, DrawingConstants.paddingVertical)
+                    .padding(.horizontal, DrawingConstants.paddingHorizontal)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var cardShape: some View {
+        
+        if card.cardShading == .open {
+            switch card.cardShape {
+            case .diamond:
+                Diamond()
+                    .stroke(lineWidth: 3)
+            case .rectangle:
+                Rectangle()
+                    .stroke(lineWidth: 3)
+            case .oval:
+                Oval()
+                    .stroke(lineWidth: 3)
+            }
+        } else {
+            switch card.cardShape {
+            case .diamond:
+                Diamond()
+                    .opacity(card.cardShading.rawValue)
+            case .rectangle:
+                Rectangle()
+                    .opacity(card.cardShading.rawValue)
+            case .oval:
+                Oval()
+                    .opacity(card.cardShading.rawValue)
             }
         }
     }
@@ -54,14 +76,14 @@ struct DrawingConstants {
     static let cornerRadius: CGFloat = 5
     static let aspectRatio: CGFloat = 2
     static let paddingVertical: Double = 6
-    static let paddingHorizontal: Double = 2
-    
+    static let paddingHorizontal: Double = 10
+    static let cardWidth: CGFloat = 50
 }
 
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        let card = Card(id: 1, cardNumber: CardNumber.two, cardShading: CardShading.striped, cardColor: .red, cardShape: CardShape.oval, isSelected: false, isMatched: false)
+        let card = Card(id: 1, cardNumber: CardNumber.two, cardShading: CardShading.open, cardColor: .red, cardShape: CardShape.oval, isSelected: true, isDistributed: true)
         CardView(card: card)
     }
 }

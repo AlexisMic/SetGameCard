@@ -17,7 +17,6 @@ struct Oval: Shape {
         
         var p = Path()
         
-        p.move(to: start)
         p.addArc(center: start, radius: radius, startAngle: Angle(degrees: 270), endAngle: Angle(degrees: 90), clockwise: true)
         p.addLine(to: bottomRight)
         p.addArc(center: centerRight, radius: radius, startAngle: Angle(degrees: 90), endAngle: Angle(degrees: 270), clockwise: true)

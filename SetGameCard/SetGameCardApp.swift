@@ -9,10 +9,10 @@ import SwiftUI
 
 @main
 struct SetGameCardApp: App {
+    private let viewModel = GameViewModel()
     var body: some Scene {
-        let gameVM = GameViewModel()
         WindowGroup {
-            SetGameView(gameVM: gameVM)
+            SetGameView(gameVM: viewModel)
         }
     }
 }

@@ -9,16 +9,16 @@ import SwiftUI
 
 let possibleColors = [Color.red, Color.blue, Color.green]
 
-struct Card {
+struct Card: Identifiable {
     
     let id: Int
     let cardNumber: CardNumber
     let cardShading: CardShading
     let cardColor: Color
     let cardShape: CardShape
-    let isSelected: Bool
-    let isMatched: Bool
-    
+    var isSelected: Bool = false
+    var isMatched: Bool = false
+    var isDistributed: Bool = false
 }
 
 enum CardNumber: Int, CaseIterable {

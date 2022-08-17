@@ -5,15 +5,30 @@
 //  Created by Alexis Schotte on 8/17/22.
 //
 
-import Foundation
 import SwiftUI
 
 class GameViewModel: ObservableObject {
     
-    var model = SetGame()
+    @Published private var model = SetGame()
     
     var cards: Array<Card> {
         model.cards
     }
     
+    //MARK: Intents
+    
+    // new cards
+    func dealCards() {
+        model.dealCards()
+    }
+    
+    // new game
+    func newGame() {
+        model = SetGame()
+        
+    }
+    
+    func chooseCard(card: Card) {
+        model.chooseCard(card: card)
+    }
 }
