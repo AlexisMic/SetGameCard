@@ -12,11 +12,15 @@ struct SetGame {
     private(set) var cards: Array<Card>
     
     private var currentCardOnTheDeck: Int? {
-        cards.firstIndex(where: {$0.isDistributed == false})
+        cards.firstIndex(where: {!$0.isDistributed})
+    }
+    
+    var numberOfCardsDistributed: Int {
+        cards.filter({$0.isDistributed}).count
     }
     
     private var selectedCards: [Card] {
-        cards.filter({$0.isSelected == true})
+        cards.filter({$0.isSelected})
     }
     
     init() {

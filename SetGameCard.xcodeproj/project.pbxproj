@@ -17,6 +17,7 @@
 		89C2E43528ACCAE80080A183 /* Diamond.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C2E43428ACCAE80080A183 /* Diamond.swift */; };
 		89C2E43728ACCFE40080A183 /* Oval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C2E43628ACCFE30080A183 /* Oval.swift */; };
 		89C2E43928ACD9000080A183 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C2E43828ACD9000080A183 /* GameViewModel.swift */; };
+		89C2E43C28AE34460080A183 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C2E43B28AE34450080A183 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		89C2E43428ACCAE80080A183 /* Diamond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diamond.swift; sourceTree = "<group>"; };
 		89C2E43628ACCFE30080A183 /* Oval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oval.swift; sourceTree = "<group>"; };
 		89C2E43828ACD9000080A183 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		89C2E43B28AE34450080A183 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 		89C2E41B28AAB79F0080A183 /* SetGameCard */ = {
 			isa = PBXGroup;
 			children = (
+				89C2E43A28AE342A0080A183 /* Constants */,
 				89C2E41C28AAB79F0080A183 /* SetGameCardApp.swift */,
 				89C2E42C28AB9C950080A183 /* ViewModel */,
 				89C2E42A28AB9C5E0080A183 /* Views */,
@@ -115,6 +118,14 @@
 				89C2E43628ACCFE30080A183 /* Oval.swift */,
 			);
 			path = Shapes;
+			sourceTree = "<group>";
+		};
+		89C2E43A28AE342A0080A183 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				89C2E43B28AE34450080A183 /* Constants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,6 +206,7 @@
 				89C2E41D28AAB79F0080A183 /* SetGameCardApp.swift in Sources */,
 				89C2E43028AB9CD00080A183 /* Card.swift in Sources */,
 				89C2E43228ABF1590080A183 /* CardView.swift in Sources */,
+				89C2E43C28AE34460080A183 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

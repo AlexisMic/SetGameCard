@@ -17,21 +17,47 @@ struct SetGameView: View {
                 .font(.largeTitle)
                 .padding()
             Spacer()
-            ScrollView {
-                LazyVGrid(columns: [adaptativeGrid(widht: DrawingConstants.cardWidth)]) {
-                    ForEach (gameVM.cards) { card in
-                        if card.isDistributed {
-                            CardView(card: card)
-                                .padding(3)
-                                .onTapGesture {
-                                    gameVM.chooseCard(card: card)
+            GeometryReader { geometry in
+                ScrollView {
+                    
+                    VStack {
+                        LazyVGrid(columns: [adaptativeGrid(widht: adaptiveWidth(size: geometry.size, aspectRatio: Constants.aspectRatioCard))]) {
+                            ForEach (gameVM.cards) { card in
+                                if card.isDistributed {
+                                    CardView(card: card)
+                                        .aspectRatio(Constants.aspectRatioCard, contentMode: .fit)
+                                        .padding(3)
+                                        .onTapGesture {
+                                            gameVM.chooseCard(card: card)
+                                        }
                                 }
+                            }
                         }
+                        Spacer(minLength: 0)
                     }
+                    
                 }
             }
             buttons
         }
+    }
+    
+    private func adaptiveWidth(size: CGSize, aspectRatio: CGFloat) -> CGFloat {
+        var columns = 0
+        var rows = Double(gameVM.numberOfDistributedCards)
+        var allCardsHeight: CGFloat = 10000
+        var width: CGFloat = 60.0
+        print("size.height \(size.height)")
+        print("size.width \(size.width)")
+        while allCardsHeight > size.height {
+            columns += 1
+            rows = Double(gameVM.numberOfDistributedCards) / Double(columns)
+            rows.round(.up)
+            width = size.width / CGFloat(columns)
+            let cardHeight: CGFloat = width / aspectRatio
+            allCardsHeight = CGFloat(rows) * cardHeight
+        }
+        return width < 60.0 ? 60.0 : width
     }
     
     private func adaptativeGrid(widht: CGFloat) -> GridItem {

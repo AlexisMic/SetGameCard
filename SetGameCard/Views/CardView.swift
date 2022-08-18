@@ -13,7 +13,7 @@ struct CardView: View {
         
     var body: some View {
         
-        let cardShape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
+        let cardShape = RoundedRectangle(cornerRadius: Constants.cornerRadius)
         ZStack {
             cardShape
                 .fill()
@@ -24,7 +24,7 @@ struct CardView: View {
                 .foregroundColor(card.isSelected ? .orange : .gray)
             cardContent
         }
-        .aspectRatio(2/3, contentMode: .fit)
+//        .aspectRatio(2/3, contentMode: .fit)
 //        .frame(width: DrawingConstants.cardWidth, height: DrawingConstants.cardWidth * 3/2)
     }
     
@@ -33,9 +33,9 @@ struct CardView: View {
             ForEach(0..<card.cardNumber.rawValue) { _ in
                 cardShape
                     .foregroundColor(card.cardColor)
-                    .aspectRatio(DrawingConstants.aspectRatio, contentMode: .fit)
-                    .padding(.vertical, DrawingConstants.paddingVertical)
-                    .padding(.horizontal, DrawingConstants.paddingHorizontal)
+                    .aspectRatio(Constants.aspectRatioContent, contentMode: .fit)
+                    .padding(.vertical, Constants.paddingVertical)
+                    .padding(.horizontal, Constants.paddingHorizontal)
             }
         }
     }
@@ -70,16 +70,6 @@ struct CardView: View {
         }
     }
 }
-
-
-struct DrawingConstants {
-    static let cornerRadius: CGFloat = 5
-    static let aspectRatio: CGFloat = 2
-    static let paddingVertical: Double = 6
-    static let paddingHorizontal: Double = 10
-    static let cardWidth: CGFloat = 50
-}
-
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {

@@ -15,6 +15,10 @@ class GameViewModel: ObservableObject {
         model.cards
     }
     
+    var numberOfDistributedCards: Int {
+        model.numberOfCardsDistributed
+    }
+    
     //MARK: Intents
     
     // new cards
