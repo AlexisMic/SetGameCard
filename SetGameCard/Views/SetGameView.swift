@@ -47,8 +47,6 @@ struct SetGameView: View {
         var rows = Double(gameVM.numberOfDistributedCards)
         var allCardsHeight: CGFloat = 10000
         var width: CGFloat = 60.0
-        print("size.height \(size.height)")
-        print("size.width \(size.width)")
         while allCardsHeight > size.height {
             columns += 1
             rows = Double(gameVM.numberOfDistributedCards) / Double(columns)
@@ -71,13 +69,24 @@ struct SetGameView: View {
             Button {
                 gameVM.newGame()
             } label: {
-                Text("New Game")
+                VStack {
+                    Image(systemName: "shuffle")
+                        .font(.largeTitle)
+                    Text("New Game")
+                        .font(.caption)
+                }
             }
+            
             Spacer()
             Button {
                 gameVM.dealCards()
             } label: {
-                Text("New Cards")
+                VStack {
+                    Image(systemName: "plus.circle")
+                        .font(.largeTitle)
+                    Text("Hit me!")
+                        .font(.caption)
+                }
             }
         }
         .padding(.horizontal, 50)

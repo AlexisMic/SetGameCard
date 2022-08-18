@@ -10,27 +10,36 @@ import SwiftUI
 struct CardView: View {
     
     let card: Card
+    
+    var backgroundColor: Color {
+        var color = card.isSelected ? Color.yellow : Color.white
+        color = card.isWronglySelected ? Color.red : color
+        color = card.isMatched ? Color.green : color
+        return color
+    }
         
     var body: some View {
         
         let cardShape = RoundedRectangle(cornerRadius: Constants.cornerRadius)
-        ZStack {
-            cardShape
-                .fill()
-                .foregroundColor(card.isSelected ? .white : .white)
-//                .opacity(card.isSelected ? 0.50 : 1)
-            cardShape
-                .strokeBorder(lineWidth: card.isSelected ? 4 : 3)
-                .foregroundColor(card.isSelected ? .orange : .gray)
-            cardContent
+        GeometryReader { geometry in
+            ZStack {
+                cardShape
+                    .fill()
+                    .foregroundColor(card.isSelected ? backgroundColor : .white)
+                    .opacity(card.isSelected ? 0.10 : 1)
+                cardShape
+                    .strokeBorder(lineWidth: card.isSelected ? 4 : 3)
+                    .foregroundColor(card.isSelected ? backgroundColor : .gray)
+                cardContent
+
+            }
         }
-//        .aspectRatio(2/3, contentMode: .fit)
-//        .frame(width: DrawingConstants.cardWidth, height: DrawingConstants.cardWidth * 3/2)
     }
     
+    @ViewBuilder
     private var cardContent: some View {
         VStack {
-            ForEach(0..<card.cardNumber.rawValue) { _ in
+            ForEach(0..<card.cardNumber.rawValue, id:\.self) { _ in
                 cardShape
                     .foregroundColor(card.cardColor)
                     .aspectRatio(Constants.aspectRatioContent, contentMode: .fit)
@@ -74,6 +83,11 @@ struct CardView: View {
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         let card = Card(id: 1, cardNumber: CardNumber.two, cardShading: CardShading.open, cardColor: .red, cardShape: CardShape.oval, isSelected: true, isDistributed: true)
-        CardView(card: card)
+        Group {
+            CardView(card: card)
+            
+            CardView(card: card)
+                .preferredColorScheme(.dark)
+        }
     }
 }

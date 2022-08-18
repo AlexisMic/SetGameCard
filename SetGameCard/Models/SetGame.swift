@@ -52,15 +52,39 @@ struct SetGame {
     
     mutating func chooseCard(card: Card) {
         if let chosenIndex = cards.firstIndex(where: {$0.id == card.id}) {
-            cards[chosenIndex].isSelected.toggle()
-            if selectedCards.count == 3 {
-                if cardsAreSet() {
-                    //TODO: mostrar que acertou
-                    cards.removeAll(where: {$0.isSelected == true})
-                    dealCards()
-                } else {
-                    //TODO: mostrar que errou
-                    cards.indices.forEach({cards[$0].isSelected = false})
+            if !cards[chosenIndex].isMatched && !cards[chosenIndex].isWronglySelected {
+                cards[chosenIndex].isSelected.toggle()
+                if selectedCards.count == 3 {
+                    if cardsAreSet() {
+                        // mostra que acertou
+                        cards.indices.forEach { index in
+                            if cards[index].isSelected {
+                                cards[index].isMatched = true
+                            }
+                        }
+                    } else {
+                        // mostra que errou
+                        cards.indices.forEach { index in
+                            if cards[index].isSelected {
+                                cards[index].isWronglySelected = true
+                            }
+                        }
+                    }
+                }
+                if selectedCards.count == 4 {
+                    if cards.allSatisfy({$0.isWronglySelected == false}) {
+                        // remove as cartas que acertaram
+                        cards.removeAll(where: {$0.isMatched})
+                        dealCards()
+                    } else {
+                        // Cancela a seleção das cartas erradas
+                        cards.indices.forEach { index in
+                            if cards[index].isWronglySelected {
+                                cards[index].isSelected = false
+                                cards[index].isWronglySelected = false
+                            }
+                        }
+                    }
                 }
             }
         }

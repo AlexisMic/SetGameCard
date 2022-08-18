@@ -19,6 +19,7 @@ struct Card: Identifiable {
     var isSelected: Bool = false
     var isMatched: Bool = false
     var isDistributed: Bool = false
+    var isWronglySelected: Bool = false
 }
 
 enum CardNumber: Int, CaseIterable {
