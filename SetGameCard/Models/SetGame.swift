@@ -54,36 +54,44 @@ struct SetGame {
         if let chosenIndex = cards.firstIndex(where: {$0.id == card.id}) {
             if !cards[chosenIndex].isMatched && !cards[chosenIndex].isWronglySelected {
                 cards[chosenIndex].isSelected.toggle()
-                if selectedCards.count == 3 {
-                    if cardsAreSet() {
-                        // mostra que acertou
-                        cards.indices.forEach { index in
-                            if cards[index].isSelected {
-                                cards[index].isMatched = true
-                            }
+            } else {
+                verifyIfItIsASet()
+                cards[chosenIndex].isSelected.toggle()
+            }
+            if selectedCards.count == 3 {
+                if cardsAreSet() {
+                    // mostra que acertou
+                    cards.indices.forEach { index in
+                        if cards[index].isSelected {
+                            cards[index].isMatched = true
                         }
-                    } else {
-                        // mostra que errou
-                        cards.indices.forEach { index in
-                            if cards[index].isSelected {
-                                cards[index].isWronglySelected = true
-                            }
+                    }
+                } else {
+                    // mostra que errou
+                    cards.indices.forEach { index in
+                        if cards[index].isSelected {
+                            cards[index].isWronglySelected = true
                         }
                     }
                 }
-                if selectedCards.count == 4 {
-                    if cards.allSatisfy({$0.isWronglySelected == false}) {
-                        // remove as cartas que acertaram
-                        cards.removeAll(where: {$0.isMatched})
-                        dealCards()
-                    } else {
-                        // Cancela a seleção das cartas erradas
-                        cards.indices.forEach { index in
-                            if cards[index].isWronglySelected {
-                                cards[index].isSelected = false
-                                cards[index].isWronglySelected = false
-                            }
-                        }
+            }
+            if selectedCards.count == 4 {
+                verifyIfItIsASet()
+            }
+            
+        }
+        
+        func verifyIfItIsASet() {
+            if cards.allSatisfy({$0.isWronglySelected == false}) {
+                // remove as cartas que acertaram
+                cards.removeAll(where: {$0.isMatched})
+                dealCards()
+            } else {
+                // Cancela a seleção das cartas erradas
+                cards.indices.forEach { index in
+                    if cards[index].isWronglySelected {
+                        cards[index].isSelected = false
+                        cards[index].isWronglySelected = false
                     }
                 }
             }
@@ -98,13 +106,6 @@ struct SetGame {
         
         return numberTest && shadeTest && shapeTest && colorTest
     }
-    
-//    private func isAllTheSameOrAllDiferente(item1: CardNumber, item2: CardNumber, item3: CardNumber) -> Bool {
-//        let allSameItems = item1 == item2 && item2 == item3
-//        let allDifferentItems = item1 != item2 && item1 != item3 && item2 != item3
-//        
-//        return allSameItems || allDifferentItems
-//    }
     
 }
 

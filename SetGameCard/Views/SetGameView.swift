@@ -88,6 +88,7 @@ struct SetGameView: View {
                         .font(.caption)
                 }
             }
+            .disabled(gameVM.areAllCardsDistributed)
         }
         .padding(.horizontal, 50)
     }

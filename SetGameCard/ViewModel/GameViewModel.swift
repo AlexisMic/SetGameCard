@@ -19,6 +19,10 @@ class GameViewModel: ObservableObject {
         model.numberOfCardsDistributed
     }
     
+    var areAllCardsDistributed: Bool {
+        model.cards.allSatisfy({$0.isDistributed})
+    }
+    
     //MARK: Intents
     
     // new cards
