@@ -11,34 +11,23 @@ struct SetGameView: View {
     
     @ObservedObject var gameVM: GameViewModel
     
+    @Namespace private var dealingCardsNameSpace
+    @Namespace private var removingCardsNameSpace
+    
+    @State var deal3Cards = 1
+
     var body: some View {
-        VStack {
-            Text("Set Game")
-                .font(.largeTitle)
-                .padding()
-            Spacer()
-            GeometryReader { geometry in
-                ScrollView {
-                    
-                    VStack {
-                        LazyVGrid(columns: [adaptativeGrid(widht: adaptiveWidth(size: geometry.size, aspectRatio: Constants.aspectRatioCard))]) {
-                            ForEach (gameVM.cards) { card in
-                                if card.isDistributed {
-                                    CardView(card: card)
-                                        .aspectRatio(Constants.aspectRatioCard, contentMode: .fit)
-                                        .padding(3)
-                                        .onTapGesture {
-                                            gameVM.chooseCard(card: card)
-                                        }
-                                }
-                            }
-                        }
-                        Spacer(minLength: 0)
-                    }
-                    
+        ZStack(alignment: .bottom) {
+            VStack {
+                title
+                gameBoard
+                
+                ZStack(alignment: .bottom) {
+                    buttons
+                    deckBoard
                 }
             }
-            buttons
+            
         }
     }
     
@@ -64,6 +53,70 @@ struct SetGameView: View {
         return gride
     }
     
+    private var title: some View {
+        Text("Set Game")
+            .font(.largeTitle)
+            .padding()
+    }
+    
+    private var gameBoard: some View {
+        GeometryReader { geometry in
+            ScrollView {
+                VStack {
+                    LazyVGrid(columns: [adaptativeGrid(widht: adaptiveWidth(size: geometry.size, aspectRatio: Constants.aspectRatioCard))]) {
+                        ForEach (gameVM.cards) { card in
+                            if card.isDistributed && !card.isRemoved {
+                                CardView(card: card)
+                                    .aspectRatio(Constants.aspectRatioCard, contentMode: .fit)
+                                    .matchedGeometryEffect(id: card.id, in: dealingCardsNameSpace)
+                                    .matchedGeometryEffect(id: card.id, in: removingCardsNameSpace)
+                                    .padding(3)
+                                    .onTapGesture {
+                                        gameVM.chooseCard(card: card)
+                                    }
+                            }
+                        }
+                    }
+                    Spacer(minLength: 0)
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var deckBoard: some View {
+        HStack {
+            ZStack {
+                ForEach(gameVM.cards.filter({$0.isRemoved})) { card in
+                    CardView(card: card)
+                        .matchedGeometryEffect(id: card.id, in: removingCardsNameSpace)
+                        .onAppear {
+                            if deal3Cards == 3 {
+                                gameVM.dealCards()
+                                deal3Cards = 1
+                            }
+                            deal3Cards += 1
+                        }
+                }
+                
+            }
+            .frame(width: 60, height: 90)
+            Spacer()
+            ZStack {
+                ForEach(gameVM.cards.filter({!$0.isDistributed})) { card in
+                    CardView(card: card)
+                        .matchedGeometryEffect(id: card.id, in: dealingCardsNameSpace)
+                        .onTapGesture {
+                            gameVM.dealCards()
+                        }
+                        .disabled(gameVM.areAllCardsDistributed)
+                }
+                .frame(width: 60, height: 90)
+            }
+        }
+        .padding(.horizontal)
+    }
+    
     private var buttons: some View {
         HStack {
             Button {
@@ -76,19 +129,6 @@ struct SetGameView: View {
                         .font(.caption)
                 }
             }
-            
-            Spacer()
-            Button {
-                gameVM.dealCards()
-            } label: {
-                VStack {
-                    Image(systemName: "plus.circle")
-                        .font(.largeTitle)
-                    Text("Hit me!")
-                        .font(.caption)
-                }
-            }
-            .disabled(gameVM.areAllCardsDistributed)
         }
         .padding(.horizontal, 50)
     }
@@ -98,7 +138,6 @@ struct SetGameView_Previews: PreviewProvider {
     static var previews: some View {
         let gameVMPreview = GameViewModel()
         gameVMPreview.dealCards()
-//        gameVMPreview.cards
         return Group {
             SetGameView(gameVM: gameVMPreview)
                 .previewInterfaceOrientation(.portrait)

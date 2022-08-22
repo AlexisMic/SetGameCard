@@ -69,9 +69,9 @@
 		89C2E41B28AAB79F0080A183 /* SetGameCard */ = {
 			isa = PBXGroup;
 			children = (
+				89C2E41C28AAB79F0080A183 /* SetGameCardApp.swift */,
 				89F0B0E428B36D3400497B05 /* Extensions */,
 				89C2E43A28AE342A0080A183 /* Constants */,
-				89C2E41C28AAB79F0080A183 /* SetGameCardApp.swift */,
 				89C2E42C28AB9C950080A183 /* ViewModel */,
 				89C2E42A28AB9C5E0080A183 /* Views */,
 				89C2E42B28AB9C670080A183 /* Models */,

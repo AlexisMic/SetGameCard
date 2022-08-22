@@ -27,7 +27,11 @@ class GameViewModel: ObservableObject {
     
     // new cards
     func dealCards() {
-        model.dealCards()
+        for delay in (0..<3) {
+            withAnimation(.linear(duration: Constants.animationDuration).delay(Double(delay) * 0.2)) {
+                model.dealCards()
+            }
+        }
     }
     
     // new game
@@ -36,6 +40,8 @@ class GameViewModel: ObservableObject {
     }
     
     func chooseCard(card: Card) {
-        model.chooseCard(card: card)
+        withAnimation(.linear(duration: 1)) {
+            model.chooseCard(card: card)
+        }
     }
 }

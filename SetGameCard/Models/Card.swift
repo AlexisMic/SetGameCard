@@ -16,10 +16,11 @@ struct Card: Identifiable {
     let cardShading: CardShading
     let cardColor: Color
     let cardShape: CardShape
-    var isSelected: Bool = false
-    var isMatched: Bool = false
-    var isDistributed: Bool = false
-    var isWronglySelected: Bool = false
+    var isRemoved = false
+    var isSelected = false
+    var isMatched = false
+    var isDistributed = false
+    var isWronglySelected = false
 }
 
 enum CardNumber: Int, CaseIterable {

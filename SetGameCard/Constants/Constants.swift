@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct Constants {
-    static let cornerRadius: CGFloat = 5
+    static let cornerRadius: CGFloat = 15
     static let aspectRatioContent: CGFloat = 2
     static let aspectRatioCard: CGFloat = 2/3
     static let paddingVertical: Double = 6
     static let paddingHorizontal: Double = 10
     static let cardWidth: CGFloat = 50
+    static let animationDuration: Double = 1
 }

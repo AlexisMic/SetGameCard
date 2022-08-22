@@ -5,7 +5,7 @@
 //  Created by Alexis Schotte on 8/16/22.
 //
 
-import Foundation
+import SwiftUI
 
 struct SetGame {
     
@@ -22,6 +22,8 @@ struct SetGame {
     private var selectedCards: [Card] {
         cards.filter({$0.isSelected})
     }
+    
+    var deal3MoreCards = false
     
     init() {
         self.cards = []
@@ -43,31 +45,34 @@ struct SetGame {
     mutating func dealCards() {
         if let currentCardOnTheDeck = currentCardOnTheDeck {
             if currentCardOnTheDeck < cards.count {
-                for index in (currentCardOnTheDeck..<currentCardOnTheDeck+3) {
-                    self.cards[index].isDistributed = true
-                }
+//                for index in (currentCardOnTheDeck..<currentCardOnTheDeck+3) {
+                    self.cards[currentCardOnTheDeck].isDistributed = true
+//                }
             }
         }
     }
     
     mutating func chooseCard(card: Card) {
         if let chosenIndex = cards.firstIndex(where: {$0.id == card.id}) {
-            if !cards[chosenIndex].isMatched && !cards[chosenIndex].isWronglySelected {
-                cards[chosenIndex].isSelected.toggle()
-            } else {
-                verifyIfItIsASet()
-                cards[chosenIndex].isSelected.toggle()
+            if selectedCards.count == 3 {
+                if cards[chosenIndex].isMatched {
+                    deselectThe3Cards()
+                    return
+                } else {
+                    deselectThe3Cards()
+                }
             }
+            cards[chosenIndex].isSelected.toggle()
             if selectedCards.count == 3 {
                 if cardsAreSet() {
-                    // mostra que acertou
+                    // shows that it was a match
                     cards.indices.forEach { index in
                         if cards[index].isSelected {
                             cards[index].isMatched = true
                         }
                     }
                 } else {
-                    // mostra que errou
+                    // shows that it was a mistake
                     cards.indices.forEach { index in
                         if cards[index].isSelected {
                             cards[index].isWronglySelected = true
@@ -75,19 +80,20 @@ struct SetGame {
                     }
                 }
             }
-            if selectedCards.count == 4 {
-                verifyIfItIsASet()
-            }
-            
         }
         
-        func verifyIfItIsASet() {
+        func deselectThe3Cards() {
             if cards.allSatisfy({$0.isWronglySelected == false}) {
-                // remove as cartas que acertaram
-                cards.removeAll(where: {$0.isMatched})
-                dealCards()
+                // It was a SET remove as cartas que acertaram
+                cards.indices.filter({cards[$0].isMatched}).forEach { index in
+                    cards[index].isRemoved = true
+                    cards[index].isMatched = false
+                    cards[index].isSelected = false
+                }
+                deal3MoreCards = true
+//                dealCards() // ***********************
             } else {
-                // Cancela a seleção das cartas erradas
+                // Wrong choice, not a SET Cancela a seleção das cartas erradas
                 cards.indices.forEach { index in
                     if cards[index].isWronglySelected {
                         cards[index].isSelected = false
@@ -110,3 +116,37 @@ struct SetGame {
 }
 
 
+
+
+
+//
+//mutating func chooseCard(card: Card) {
+//    if let chosenIndex = cards.firstIndex(where: {$0.id == card.id}) {
+//        if !cards[chosenIndex].isMatched && !cards[chosenIndex].isWronglySelected {
+//            cards[chosenIndex].isSelected.toggle()
+//        } else {
+//            deselectThe3Cards()
+//            cards[chosenIndex].isSelected.toggle()
+//        }
+//        if selectedCards.count == 3 {
+//            if cardsAreSet() {
+//                // shows that it was a match
+//                cards.indices.forEach { index in
+//                    if cards[index].isSelected {
+//                        cards[index].isMatched = true
+//                    }
+//                }
+//            } else {
+//                // shows that it was a mistake
+//                cards.indices.forEach { index in
+//                    if cards[index].isSelected {
+//                        cards[index].isWronglySelected = true
+//                    }
+//                }
+//            }
+//        }
+//        if selectedCards.count == 4 {
+//            deselectThe3Cards()
+//        }
+//    }
+//

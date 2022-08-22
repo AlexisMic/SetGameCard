@@ -22,15 +22,19 @@ struct Cardify: ViewModifier {
         let cardShape = RoundedRectangle(cornerRadius: Constants.cornerRadius)
 
             ZStack {
-                cardShape
-                    .fill()
-                    .foregroundColor(card.isSelected ? backgroundColor : .white)
-                    .opacity(card.isSelected ? 0.10 : 1)
-                cardShape
-                    .strokeBorder(lineWidth: card.isSelected ? 4 : 3)
-                    .foregroundColor(card.isSelected ? backgroundColor : .gray)
-                content
-
+                if card.isDistributed {
+                    cardShape
+                        .fill()
+                        .foregroundColor(card.isSelected ? backgroundColor : .white)
+                        .opacity(card.isSelected ? 0.10 : 1)
+                    cardShape
+                        .strokeBorder(lineWidth: card.isSelected ? 4 : 3)
+                        .foregroundColor(card.isSelected ? backgroundColor : .gray)
+                    content
+                } else {
+                    cardShape
+                        .foregroundColor(.red)
+                }
             }
 
     }

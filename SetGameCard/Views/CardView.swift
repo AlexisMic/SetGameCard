@@ -62,7 +62,7 @@ struct CardView: View {
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        let card = Card(id: 1, cardNumber: CardNumber.two, cardShading: CardShading.open, cardColor: .red, cardShape: CardShape.oval, isSelected: true, isDistributed: true)
+        let card = Card(id: 1, cardNumber: CardNumber.two, cardShading: CardShading.open, cardColor: .red, cardShape: CardShape.oval,  isSelected: true, isDistributed: true)
         Group {
             CardView(card: card)
             
