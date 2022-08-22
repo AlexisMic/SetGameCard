@@ -10,30 +10,10 @@ import SwiftUI
 struct CardView: View {
     
     let card: Card
-    
-    var backgroundColor: Color {
-        var color = card.isSelected ? Color.yellow : Color.white
-        color = card.isWronglySelected ? Color.red : color
-        color = card.isMatched ? Color.green : color
-        return color
-    }
         
     var body: some View {
-        
-        let cardShape = RoundedRectangle(cornerRadius: Constants.cornerRadius)
-        GeometryReader { geometry in
-            ZStack {
-                cardShape
-                    .fill()
-                    .foregroundColor(card.isSelected ? backgroundColor : .white)
-                    .opacity(card.isSelected ? 0.10 : 1)
-                cardShape
-                    .strokeBorder(lineWidth: card.isSelected ? 4 : 3)
-                    .foregroundColor(card.isSelected ? backgroundColor : .gray)
-                cardContent
-
-            }
-        }
+        cardContent
+            .cardify(this: card)
     }
     
     @ViewBuilder
